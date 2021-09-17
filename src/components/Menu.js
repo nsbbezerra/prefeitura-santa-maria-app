@@ -93,6 +93,7 @@ export default function MenuApp() {
             w="100px"
             _hover={{ transform: "scale(1.05)" }}
             _active={{ transform: "scale(1)" }}
+            onClick={() => goTo("/informatives")}
           >
             <Flex justify="center" align="center" direction="column">
               <Icon as={IoIosImages} fontSize="3xl" />
