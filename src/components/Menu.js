@@ -109,6 +109,7 @@ export default function MenuApp() {
             w="100px"
             _hover={{ transform: "scale(1.05)" }}
             _active={{ transform: "scale(1)" }}
+            onClick={() => goTo("/bids")}
           >
             <Flex justify="center" align="center" direction="column">
               <Icon as={RiPagesFill} fontSize="3xl" />

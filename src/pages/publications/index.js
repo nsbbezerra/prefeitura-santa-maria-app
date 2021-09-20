@@ -29,22 +29,34 @@ import {
   ModalOverlay,
   ModalContent,
   ModalHeader,
-  ModalFooter,
   ModalBody,
   ModalCloseButton,
+  InputGroup,
+  InputRightElement,
 } from "@chakra-ui/react";
 import { File, InputFile } from "../../styles/uploader";
-import { FaFilePdf } from "react-icons/fa";
+import { FaFilePdf, FaCalendarAlt } from "react-icons/fa";
 import {
   AiFillSave,
   AiOutlineClose,
   AiOutlineSearch,
   AiOutlineCheck,
 } from "react-icons/ai";
+import DatePicker, { registerLocale } from "react-datepicker";
+import pt_br from "date-fns/locale/pt-BR";
+
+registerLocale("pt_br", pt_br);
 
 export default function Publications() {
   const [showPdf, setShowPdf] = useState(false);
+  const [initDate, setInitDate] = useState(new Date());
 
+  const CustomInputPicker = ({ value, onClick }) => (
+    <InputGroup>
+      <Input value={value} onClick={onClick} w="100%" />
+      <InputRightElement pointerEvents="none" children={<FaCalendarAlt />} />
+    </InputGroup>
+  );
   return (
     <>
       <Center rounded="md" bg="green.500" p={1}>
@@ -67,7 +79,14 @@ export default function Publications() {
           </FormControl>
           <FormControl isRequired mt={3}>
             <FormLabel>Data da Publicação</FormLabel>
-            <Input placeholder="Data da Publicação" />
+            <DatePicker
+              selected={initDate}
+              onChange={(date) => setInitDate(date)}
+              customInput={<CustomInputPicker />}
+              locale="pt_br"
+              dateFormat="dd/MM/yyyy"
+              calendarClassName="calendar"
+            />
           </FormControl>
           <FormControl isRequired mt={3}>
             <FormLabel>Arquivo PDF</FormLabel>
