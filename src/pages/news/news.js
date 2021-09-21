@@ -47,10 +47,6 @@ export default function News() {
     setText(value);
   };
 
-  useEffect(() => {
-    console.log(text.toString("html"));
-  }, [text]);
-
   const CustomInputPicker = ({ value, onClick }) => (
     <InputGroup>
       <Input value={value} onClick={onClick} w="100%" isReadOnly />
@@ -70,15 +66,15 @@ export default function News() {
     <>
       <Button
         position="fixed"
-        top={"170px"}
+        bottom={10}
         right={10}
         leftIcon={<AiOutlineZoomIn />}
         _hover={{ transform: "scale(1.05)" }}
         _active={{ transform: "scale(1)" }}
-        colorScheme="green"
-        variant="outline"
+        colorScheme="blue"
         onClick={() => setPreview(true)}
         zIndex={1000}
+        size="lg"
       >
         Prévia
       </Button>
@@ -91,7 +87,11 @@ export default function News() {
           <FormLabel>Resumo da Notícia</FormLabel>
           <Textarea rows={2} resize="none" placeholder="Resumo da Notícia" />
         </FormControl>
-        <Grid mt={3} templateColumns="450px 450px" gap={5}>
+        <Grid mt={3} templateColumns="1fr 1fr 1fr" gap={5}>
+          <FormControl isRequired>
+            <FormLabel>Tag da Notícia</FormLabel>
+            <Input placeholder="Tag da Notícia" />
+          </FormControl>
           <FormControl isRequired>
             <FormLabel>Autor da Notícia</FormLabel>
             <Input placeholder="Autor da Notícia" />

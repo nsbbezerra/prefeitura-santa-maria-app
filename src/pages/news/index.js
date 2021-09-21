@@ -9,6 +9,7 @@ import {
   TabPanel,
 } from "@chakra-ui/react";
 import News from "./news";
+import ListNews from "./list";
 
 export default function NewsIndex() {
   return (
@@ -26,7 +27,9 @@ export default function NewsIndex() {
         </TabList>
 
         <TabPanels>
-          <TabPanel p={0}></TabPanel>
+          <TabPanel p={0}>
+            <ListNews />
+          </TabPanel>
           <TabPanel p={0}>
             <News />
           </TabPanel>
