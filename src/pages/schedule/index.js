@@ -41,7 +41,7 @@ export default function Schedule() {
 
   const CustomInputPicker = ({ value, onClick }) => (
     <InputGroup>
-      <Input value={value} onClick={onClick} w="100%" />
+      <Input value={value} onClick={onClick} w="100%" isReadOnly />
       <InputRightElement pointerEvents="none" children={<FaCalendarAlt />} />
     </InputGroup>
   );

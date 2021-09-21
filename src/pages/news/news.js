@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import {
   FormControl,
   FormLabel,
@@ -20,10 +20,12 @@ import {
   ModalCloseButton,
   Heading,
   Box,
+  Icon,
+  Flex,
 } from "@chakra-ui/react";
 import DatePicker, { registerLocale } from "react-datepicker";
 import pt_br from "date-fns/locale/pt-BR";
-import { FaCalendarAlt } from "react-icons/fa";
+import { FaCalendarAlt, FaImages } from "react-icons/fa";
 import { AiFillSave, AiOutlineZoomIn } from "react-icons/ai";
 import { File, InputFileFull } from "../../styles/uploader";
 import { IoIosImages } from "react-icons/io";
@@ -51,7 +53,7 @@ export default function News() {
 
   const CustomInputPicker = ({ value, onClick }) => (
     <InputGroup>
-      <Input value={value} onClick={onClick} w="100%" />
+      <Input value={value} onClick={onClick} w="100%" isReadOnly />
       <InputRightElement pointerEvents="none" children={<FaCalendarAlt />} />
     </InputGroup>
   );
@@ -76,6 +78,7 @@ export default function News() {
         colorScheme="green"
         variant="outline"
         onClick={() => setPreview(true)}
+        zIndex={1000}
       >
         Prévia
       </Button>
@@ -125,12 +128,14 @@ export default function News() {
 
         <FormControl isRequired mt={5}>
           <FormLabel>Texto Principal</FormLabel>
+
           <RichTextEditor
             value={text}
             onChange={onChange}
             rootStyle={{
               minHeight: "188px",
             }}
+            placeholder="Insira seu texto aqui"
           />
         </FormControl>
 
@@ -187,7 +192,7 @@ export default function News() {
         <ModalOverlay />
         <ModalContent>
           <ModalCloseButton />
-          <ModalBody mt={6}>
+          <ModalBody mt={6} pb={5}>
             <Heading fontSize="4xl" textAlign="justify">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam
               sed mollis orci. Maecenas ut nisi porttitor, ultrices nibh nec,
@@ -219,6 +224,37 @@ export default function News() {
             </Text>
 
             <div id="news-container">{Parse(text.toString("html"))}</div>
+
+            <Flex align="center" mt={10}>
+              <Icon as={FaImages} fontSize="xl" />
+              <Heading fontSize="lg" ml={2}>
+                Galeria de Fotos
+              </Heading>
+            </Flex>
+
+            <Grid templateColumns="repeat(4, 1fr)" gap={5} mt={5}>
+              <Image
+                src="https://img.freepik.com/vetores-gratis/grande-abertura_23-2148160099.jpg?size=338&ext=jpg"
+                w="100%"
+                h="130px"
+                objectFit="cover"
+                rounded="md"
+              />
+              <Image
+                src="https://img.freepik.com/vetores-gratis/grande-abertura_23-2148160099.jpg?size=338&ext=jpg"
+                w="100%"
+                h="130px"
+                objectFit="cover"
+                rounded="md"
+              />
+              <Image
+                src="https://img.freepik.com/vetores-gratis/grande-abertura_23-2148160099.jpg?size=338&ext=jpg"
+                w="100%"
+                h="130px"
+                objectFit="cover"
+                rounded="md"
+              />
+            </Grid>
           </ModalBody>
         </ModalContent>
       </Modal>
