@@ -87,6 +87,7 @@ export default function ListDesk() {
       );
       return false;
     }
+    showToast(error.response.data.message, "erro", "Erro");
   }
 
   const handleImage = (id) => {
@@ -97,6 +98,10 @@ export default function ListDesk() {
   };
 
   const changeImageDesk = async () => {
+    if (!thumbnail) {
+      showToast("Insira uma imagem", "warning", "Atenção");
+      return false;
+    }
     setLoadingImage(true);
     let dataImage = new FormData();
     dataImage.append("thumbnail", thumbnail);
@@ -137,6 +142,10 @@ export default function ListDesk() {
   }
 
   const saveInfo = async () => {
+    if (name === "") {
+      showToast("Insira um nome", "warning", "Atenção");
+      return false;
+    }
     setLoadingInfo(true);
 
     try {
