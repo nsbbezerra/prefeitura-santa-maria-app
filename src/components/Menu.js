@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   HStack,
   Icon,
@@ -10,6 +10,7 @@ import {
   Input,
   Grid,
   Tag,
+  useToast,
 } from "@chakra-ui/react";
 import { AiFillHome, AiOutlineSave } from "react-icons/ai";
 import { GiDesk, GiServerRack } from "react-icons/gi";
@@ -18,14 +19,63 @@ import { IoIosImages } from "react-icons/io";
 import { RiMailSendFill, RiPagesFill } from "react-icons/ri";
 import { ImOffice } from "react-icons/im";
 import { useHistory } from "react-router-dom";
+import useFetch from "../hooks/useFetch";
 
 export default function MenuApp() {
+  const toast = useToast();
+  const { data, error } = useFetch("/test");
   const { push } = useHistory();
-  const [route, setRoute] = useState("http://localhost:3333");
+  const [route, setRoute] = useState("");
+  const [test, setTest] = useState("wait");
 
   function goTo(rt) {
     push(rt);
   }
+
+  async function findRoute() {
+    const route = await localStorage.getItem("route");
+    if (route) {
+      setRoute(route);
+    } else {
+      setRoute("");
+    }
+  }
+
+  function showToast(message, status, title) {
+    toast({
+      title: title,
+      description: message,
+      status: status,
+      position: "bottom-right",
+      duration: 8000,
+      isClosable: true,
+    });
+  }
+
+  useEffect(() => {
+    if (data) {
+      setTest("online");
+    }
+  }, [data]);
+
+  useEffect(() => {
+    if (error) {
+      setTest("cancel");
+    }
+  }, [error]);
+
+  async function saveRoute() {
+    await localStorage.setItem("route", route);
+    showToast(
+      "Rota salva com sucesso, para que as configurações tenham efeito reinicie o sistema",
+      "success",
+      "Sucesso"
+    );
+  }
+
+  useEffect(() => {
+    findRoute();
+  }, []);
 
   return (
     <>
@@ -195,6 +245,7 @@ export default function MenuApp() {
                 leftIcon={<AiOutlineSave />}
                 _hover={{ transform: "scale(1.05)" }}
                 _active={{ transform: "scale(1)" }}
+                onClick={() => saveRoute()}
               >
                 Salvar
               </Button>
@@ -205,9 +256,21 @@ export default function MenuApp() {
             <Text fontSize="sm" color="white">
               Status do Servidor:
             </Text>
-            <Tag colorScheme="green" size="sm">
-              ONLINE
-            </Tag>
+            {test === "wait" && (
+              <Tag colorScheme="yellow" size="sm">
+                CONECTANDO...
+              </Tag>
+            )}
+            {test === "cancel" && (
+              <Tag colorScheme="red" size="sm">
+                OFFLINE
+              </Tag>
+            )}
+            {test === "online" && (
+              <Tag colorScheme="green" size="sm">
+                ONLINE
+              </Tag>
+            )}
           </HStack>
         </Flex>
       </Flex>

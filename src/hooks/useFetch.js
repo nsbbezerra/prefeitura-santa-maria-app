@@ -5,12 +5,13 @@ export default function useFetch(url) {
   const { data, error, mutate } = useSwr(
     [url],
     async (url) => {
-      const response = api.get(url);
+      const response = await api.get(url);
       return response.data;
     },
     {
       revalidateOnReconnect: true,
       refreshInterval: 5000,
+      revalidateOnFocus: true,
     }
   );
   return { data, error, mutate };

@@ -1,8 +1,9 @@
 import axios from "axios";
-import { configs } from "./index";
+
+const route = localStorage.getItem("route");
 
 const api = axios.create({
-  baseURL: configs.default_url,
+  baseURL: route,
 });
 
-export { api };
+export { api, route };
