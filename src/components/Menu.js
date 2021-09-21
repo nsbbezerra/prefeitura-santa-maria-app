@@ -78,6 +78,7 @@ export default function MenuApp() {
             w="100px"
             _hover={{ transform: "scale(1.05)" }}
             _active={{ transform: "scale(1)" }}
+            onClick={() => goTo("/news")}
           >
             <Flex justify="center" align="center" direction="column">
               <Icon as={IoNewspaper} fontSize="3xl" />
@@ -147,6 +148,7 @@ export default function MenuApp() {
             w="100px"
             _hover={{ transform: "scale(1.05)" }}
             _active={{ transform: "scale(1)" }}
+            onClick={() => goTo("/schedule")}
           >
             <Flex justify="center" align="center" direction="column">
               <Icon as={IoCalendarSharp} fontSize="3xl" />
@@ -162,6 +164,7 @@ export default function MenuApp() {
             w="100px"
             _hover={{ transform: "scale(1.05)" }}
             _active={{ transform: "scale(1)" }}
+            onClick={() => goTo("/secretary")}
           >
             <Flex justify="center" align="center" direction="column">
               <Icon as={ImOffice} fontSize="3xl" />

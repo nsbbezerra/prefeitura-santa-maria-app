@@ -191,7 +191,7 @@ export default function Publications() {
         isOpen={showPdf}
         onClose={() => setShowPdf(false)}
         scrollBehavior="inside"
-        size="5xl"
+        size="6xl"
         isCentered
       >
         <ModalOverlay />

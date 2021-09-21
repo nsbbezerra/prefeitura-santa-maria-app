@@ -2,3 +2,8 @@
   position: absolute;
   z-index: 1000;
 }
+
+#news-container h1 {
+  font-size: 35px;
+  font-weight: bold;
+}

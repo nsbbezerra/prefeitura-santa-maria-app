@@ -8,15 +8,15 @@ import {
   Tab,
   TabPanel,
 } from "@chakra-ui/react";
-import Bids from "./bids";
-import List from "./list";
+import Secretary from "./secretary";
+import ListSecretary from "./list";
 
-export default function BidsIndex() {
+export default function SecretaryIndex() {
   return (
     <>
       <Center rounded="md" bg="green.500" p={1} shadow="md">
         <Text color="white" fontWeight="bold" fontSize="lg">
-          LICITAÇÕES E EDITAIS
+          SECRETARIAS
         </Text>
       </Center>
 
@@ -28,10 +28,10 @@ export default function BidsIndex() {
 
         <TabPanels>
           <TabPanel p={0}>
-            <List />
+            <ListSecretary />
           </TabPanel>
           <TabPanel p={0}>
-            <Bids />
+            <Secretary />
           </TabPanel>
         </TabPanels>
       </Tabs>
