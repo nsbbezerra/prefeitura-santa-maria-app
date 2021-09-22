@@ -49,10 +49,6 @@ export default function Bids() {
     </InputGroup>
   );
 
-  useEffect(() => {
-    console.log(files);
-  }, [files]);
-
   function handleFile(file) {
     if (file) {
       const filter = files.find((obj) => obj.name === file.name);
