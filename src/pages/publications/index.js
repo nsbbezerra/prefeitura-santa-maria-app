@@ -182,7 +182,7 @@ export default function Publications() {
     await data.publication.map((publi) => {
       const publiDate = new Date(publi.date);
       if (
-        publiDate.getDay() === date.getDay() &&
+        publiDate.getDate() === date.getDate() &&
         publiDate.getMonth() === date.getMonth() &&
         publiDate.getFullYear() === date.getFullYear()
       ) {

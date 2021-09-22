@@ -9,24 +9,20 @@ import {
   FormLabel,
   Input,
   Grid,
-  Tag,
   useToast,
 } from "@chakra-ui/react";
 import { AiFillHome, AiOutlineSave } from "react-icons/ai";
-import { GiDesk, GiServerRack } from "react-icons/gi";
+import { GiDesk } from "react-icons/gi";
 import { IoNewspaper, IoCalendarSharp } from "react-icons/io5";
 import { IoIosImages } from "react-icons/io";
 import { RiMailSendFill, RiPagesFill, RiFileList3Fill } from "react-icons/ri";
 import { ImOffice } from "react-icons/im";
 import { useHistory } from "react-router-dom";
-import useFetch from "../hooks/useFetch";
 
 export default function MenuApp() {
   const toast = useToast();
-  const { data, error } = useFetch("/test");
   const { push } = useHistory();
   const [route, setRoute] = useState("");
-  const [test, setTest] = useState("wait");
 
   function goTo(rt) {
     push(rt);
@@ -51,18 +47,6 @@ export default function MenuApp() {
       isClosable: true,
     });
   }
-
-  useEffect(() => {
-    if (data) {
-      setTest("online");
-    }
-  }, [data]);
-
-  useEffect(() => {
-    if (error) {
-      setTest("cancel");
-    }
-  }, [error]);
 
   async function saveRoute() {
     await localStorage.setItem("route", route);
@@ -269,27 +253,6 @@ export default function MenuApp() {
               </Button>
             </Grid>
           </FormControl>
-          <HStack mt={2}>
-            <Icon as={GiServerRack} color="white" />
-            <Text fontSize="sm" color="white">
-              Status do Servidor:
-            </Text>
-            {test === "wait" && (
-              <Tag colorScheme="yellow" size="sm">
-                CONECTANDO...
-              </Tag>
-            )}
-            {test === "cancel" && (
-              <Tag colorScheme="red" size="sm">
-                OFFLINE
-              </Tag>
-            )}
-            {test === "online" && (
-              <Tag colorScheme="green" size="sm">
-                ONLINE
-              </Tag>
-            )}
-          </HStack>
         </Flex>
       </Flex>
     </>

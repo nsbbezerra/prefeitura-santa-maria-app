@@ -25,8 +25,10 @@ import {
   Textarea,
   useToast,
   Select,
+  IconButton,
+  Tooltip,
 } from "@chakra-ui/react";
-import { FaCalendarAlt } from "react-icons/fa";
+import { FaCalendarAlt, FaTrash } from "react-icons/fa";
 import {
   AiFillSave,
   AiOutlineCalendar,
@@ -164,6 +166,37 @@ export default function Schedule() {
     }
   };
 
+  const handleDelEvent = async (id) => {
+    const result = await data.map((ev) => {
+      if (ev.events.find((obj) => obj._id === id)) {
+        return ev._id;
+      }
+    });
+    const schedule_id = await result.find((obj) => obj !== undefined);
+    const schedule_act = await data.find((obj) => obj._id === schedule_id);
+    const updated_events = await schedule_act.events.filter(
+      (obj) => obj._id !== id
+    );
+
+    try {
+      const response = await api.put(`/scheduleDel/${schedule_id}`, {
+        events: updated_events,
+      });
+      showToast(response.data.message, "success", "Sucesso");
+    } catch (error) {
+      if (error.message === "Network Error") {
+        alert(
+          "Sem conexão com o servidor, verifique sua conexão com a internet."
+        );
+        return false;
+      }
+      const typeError =
+        error.response.data.message || "Ocorreu um erro ao salvar";
+      const message = error.response.data.errorMessage;
+      showToast(message, "error", typeError);
+    }
+  };
+
   return (
     <>
       <Center rounded="md" bg="green.500" p={1} shadow="md">
@@ -285,6 +318,15 @@ export default function Schedule() {
                                 {ev.description}
                               </Text>
                             </Box>
+                            <Tooltip label="Excluir Evento" hasArrow>
+                              <IconButton
+                                icon={<FaTrash />}
+                                size="sm"
+                                variant="link"
+                                colorScheme="red"
+                                onClick={() => handleDelEvent(ev._id)}
+                              />
+                            </Tooltip>
                           </Flex>
                         ))}
                     </>
