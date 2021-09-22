@@ -50,7 +50,7 @@ import pt_br from "date-fns/locale/pt-BR";
 
 import { route, api } from "../../configs/axios";
 import useFetch from "../../hooks/useFetch";
-import { format, isEqual } from "date-fns";
+import { format } from "date-fns";
 
 registerLocale("pt_br", pt_br);
 
