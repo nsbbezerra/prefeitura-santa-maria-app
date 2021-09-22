@@ -16,7 +16,7 @@ import { AiFillHome, AiOutlineSave } from "react-icons/ai";
 import { GiDesk, GiServerRack } from "react-icons/gi";
 import { IoNewspaper, IoCalendarSharp } from "react-icons/io5";
 import { IoIosImages } from "react-icons/io";
-import { RiMailSendFill, RiPagesFill } from "react-icons/ri";
+import { RiMailSendFill, RiPagesFill, RiFileList3Fill } from "react-icons/ri";
 import { ImOffice } from "react-icons/im";
 import { useHistory } from "react-router-dom";
 import useFetch from "../hooks/useFetch";
@@ -90,74 +90,74 @@ export default function MenuApp() {
       >
         <HStack spacing={3}>
           <Button
-            h="70px"
+            h="65px"
             colorScheme="gray"
             variant="solid"
-            w="100px"
+            w="90px"
             _hover={{ transform: "scale(1.05)" }}
             _active={{ transform: "scale(1)" }}
             onClick={() => goTo("/")}
           >
             <Flex justify="center" align="center" direction="column">
               <Icon as={AiFillHome} fontSize="3xl" />
-              <Text mt={2} fontSize="xs">
+              <Text mt={2} fontSize="x-small">
                 INÍCIO
               </Text>
             </Flex>
           </Button>
           <Button
-            h="70px"
+            h="65px"
             colorScheme="gray"
             variant="solid"
-            w="100px"
+            w="90px"
             _hover={{ transform: "scale(1.05)" }}
             _active={{ transform: "scale(1)" }}
             onClick={() => goTo("/desks")}
           >
             <Flex justify="center" align="center" direction="column">
               <Icon as={GiDesk} fontSize="3xl" />
-              <Text mt={2} fontSize="xs">
+              <Text mt={2} fontSize="x-small">
                 GABINETES
               </Text>
             </Flex>
           </Button>
           <Button
-            h="70px"
+            h="65px"
             colorScheme="gray"
             variant="solid"
-            w="100px"
+            w="90px"
             _hover={{ transform: "scale(1.05)" }}
             _active={{ transform: "scale(1)" }}
             onClick={() => goTo("/news")}
           >
             <Flex justify="center" align="center" direction="column">
               <Icon as={IoNewspaper} fontSize="3xl" />
-              <Text mt={2} fontSize="xs">
+              <Text mt={2} fontSize="x-small">
                 NOTÍCIAS
               </Text>
             </Flex>
           </Button>
           <Button
-            h="70px"
+            h="65px"
             colorScheme="gray"
             variant="solid"
-            w="100px"
+            w="90px"
             _hover={{ transform: "scale(1.05)" }}
             _active={{ transform: "scale(1)" }}
             onClick={() => goTo("/informatives")}
           >
             <Flex justify="center" align="center" direction="column">
               <Icon as={IoIosImages} fontSize="3xl" />
-              <Text mt={2} fontSize="xs">
+              <Text mt={2} fontSize="x-small">
                 INFORMATIVOS
               </Text>
             </Flex>
           </Button>
           <Button
-            h="70px"
+            h="65px"
             colorScheme="gray"
             variant="solid"
-            w="100px"
+            w="90px"
             _hover={{ transform: "scale(1.05)" }}
             _active={{ transform: "scale(1)" }}
             onClick={() => goTo("/bids")}
@@ -166,7 +166,7 @@ export default function MenuApp() {
               <Icon as={RiPagesFill} fontSize="3xl" />
               <Text
                 mt={2}
-                fontSize="xs"
+                fontSize="x-small"
                 textAlign="center"
                 w="90px"
                 wordBreak="break-word"
@@ -176,56 +176,73 @@ export default function MenuApp() {
             </Flex>
           </Button>
           <Button
-            h="70px"
+            h="65px"
             colorScheme="gray"
             variant="solid"
-            w="100px"
+            w="90px"
             _hover={{ transform: "scale(1.05)" }}
             _active={{ transform: "scale(1)" }}
             onClick={() => goTo("/publications")}
           >
             <Flex justify="center" align="center" direction="column">
               <Icon as={RiMailSendFill} fontSize="3xl" />
-              <Text mt={2} fontSize="xs">
+              <Text mt={2} fontSize="x-small">
                 PUBLICAÇÕES
               </Text>
             </Flex>
           </Button>
           <Button
-            h="70px"
+            h="65px"
             colorScheme="gray"
             variant="solid"
-            w="100px"
+            w="90px"
             _hover={{ transform: "scale(1.05)" }}
             _active={{ transform: "scale(1)" }}
             onClick={() => goTo("/schedule")}
           >
             <Flex justify="center" align="center" direction="column">
               <Icon as={IoCalendarSharp} fontSize="3xl" />
-              <Text mt={2} fontSize="xs">
+              <Text mt={2} fontSize="x-small">
                 AGENDA
               </Text>
             </Flex>
           </Button>
           <Button
-            h="70px"
+            h="65px"
             colorScheme="gray"
             variant="solid"
-            w="100px"
+            w="90px"
             _hover={{ transform: "scale(1.05)" }}
             _active={{ transform: "scale(1)" }}
             onClick={() => goTo("/secretary")}
           >
             <Flex justify="center" align="center" direction="column">
               <Icon as={ImOffice} fontSize="3xl" />
-              <Text mt={2} fontSize="xs">
+              <Text mt={2} fontSize="x-small">
                 SECRETARIAS
+              </Text>
+            </Flex>
+          </Button>
+
+          <Button
+            h="65px"
+            colorScheme="gray"
+            variant="solid"
+            w="90px"
+            _hover={{ transform: "scale(1.05)" }}
+            _active={{ transform: "scale(1)" }}
+            onClick={() => goTo("/secretary")}
+          >
+            <Flex justify="center" align="center" direction="column">
+              <Icon as={RiFileList3Fill} fontSize="3xl" />
+              <Text mt={2} fontSize="x-small">
+                PORTARIAS
               </Text>
             </Flex>
           </Button>
         </HStack>
 
-        <Flex justify="center" direction="column" h="100%" w="28%">
+        <Flex justify="center" direction="column" h="100%" w="24%">
           <FormControl>
             <FormLabel fontSize="sm" mb={0} color="white">
               Conexão com o Servidor:
@@ -238,6 +255,7 @@ export default function MenuApp() {
                 focusBorderColor="green.500"
                 value={route}
                 onChange={(e) => setRoute(e.target.value)}
+                w="230px"
               />
               <Button
                 colorScheme="green"
@@ -251,7 +269,7 @@ export default function MenuApp() {
               </Button>
             </Grid>
           </FormControl>
-          <HStack mt={3}>
+          <HStack mt={2}>
             <Icon as={GiServerRack} color="white" />
             <Text fontSize="sm" color="white">
               Status do Servidor:

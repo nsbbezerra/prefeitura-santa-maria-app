@@ -96,7 +96,8 @@ export default function Desks() {
       }
       const typeError =
         error.response.data.message || "Ocorreu um erro ao salvar";
-      showToast(typeError, "error", "Erro");
+      const message = error.response.data.errorMessage;
+      showToast(message, "error", typeError);
     }
   };
 

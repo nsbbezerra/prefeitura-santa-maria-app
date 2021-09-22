@@ -6,7 +6,7 @@ import Routes from "../routes/index";
 export default function Layout() {
   return (
     <>
-      <Grid templateRows="100px 1fr" w="100vw" h="100vh">
+      <Grid templateRows="90px 1fr" w="100vw" h="100vh">
         <MenuApp />
 
         <Box h="100%" overflow="auto" maxH="100%" p={6}>

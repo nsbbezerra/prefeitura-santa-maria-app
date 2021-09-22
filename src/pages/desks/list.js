@@ -87,7 +87,10 @@ export default function ListDesk() {
       );
       return false;
     }
-    showToast(error.response.data.message, "erro", "Erro");
+    const typeError =
+      error.response.data.message || "Ocorreu um erro ao salvar";
+    const message = error.response.data.errorMessage;
+    showToast(message, "error", typeError);
   }
 
   const handleImage = (id) => {
@@ -129,7 +132,8 @@ export default function ListDesk() {
       }
       const typeError =
         error.response.data.message || "Ocorreu um erro ao salvar";
-      showToast(typeError, "error", "Erro");
+      const message = error.response.data.errorMessage;
+      showToast(message, "error", typeError);
     }
   };
 
@@ -172,7 +176,8 @@ export default function ListDesk() {
       }
       const typeError =
         error.response.data.message || "Ocorreu um erro ao salvar";
-      showToast(typeError, "error", "Erro");
+      const message = error.response.data.errorMessage;
+      showToast(message, "error", typeError);
     }
   };
 
