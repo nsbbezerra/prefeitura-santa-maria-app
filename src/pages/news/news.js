@@ -141,10 +141,6 @@ export default function News() {
     setGalery([]);
   }
 
-  useEffect(() => {
-    console.log(previewGalery);
-  }, [galery]);
-
   const save = async () => {
     if (title === "") {
       showToast("Insira um título", "warning", "Atenção");
@@ -208,6 +204,14 @@ export default function News() {
   const saveGalery = async () => {
     if (galery.length === 0) {
       showToast("Insira imagens na galeria", "warning", "Atenção");
+      return false;
+    }
+    if (galery.length > 12) {
+      showToast(
+        "Limite de imagens excedido, o limite é de 12 imagens",
+        "warning",
+        "Atenção"
+      );
       return false;
     }
     setLoadingGalery(true);
