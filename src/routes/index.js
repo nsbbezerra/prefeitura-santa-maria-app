@@ -6,9 +6,11 @@ import BidsIndex from "../pages/bids";
 import Desks from "../pages/desks/index";
 import Informatives from "../pages/informatives";
 import NewsIndex from "../pages/news";
+import OrdinancesIndex from "../pages/ordinances";
 import Publications from "../pages/publications";
 import Schedule from "../pages/schedule";
 import SecretaryIndex from "../pages/secretary";
+import Videos from "../pages/videos";
 
 export default function Router() {
   return (
@@ -36,6 +38,12 @@ export default function Router() {
       </Route>
       <Route path="/news">
         <NewsIndex />
+      </Route>
+      <Route path="/ordinances">
+        <OrdinancesIndex />
+      </Route>
+      <Route path="/videos">
+        <Videos />
       </Route>
     </Switch>
   );
