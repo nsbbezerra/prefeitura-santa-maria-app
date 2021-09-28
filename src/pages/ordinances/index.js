@@ -9,6 +9,9 @@ import {
   TabPanel,
 } from "@chakra-ui/react";
 
+import Store from "./ordinances";
+import ListOrdinances from "./list";
+
 export default function OrdinancesIndex() {
   return (
     <>
@@ -25,8 +28,12 @@ export default function OrdinancesIndex() {
         </TabList>
 
         <TabPanels>
-          <TabPanel p={0}></TabPanel>
-          <TabPanel p={0}></TabPanel>
+          <TabPanel p={0}>
+            <ListOrdinances />
+          </TabPanel>
+          <TabPanel p={0}>
+            <Store />
+          </TabPanel>
         </TabPanels>
       </Tabs>
     </>

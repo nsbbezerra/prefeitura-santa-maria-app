@@ -47,9 +47,8 @@
 
 #news-container p {
   text-align: justify;
-  text-indent: 30px;
-  margin-top: 5px;
-  margin-bottom: 5px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 #news-container p code {

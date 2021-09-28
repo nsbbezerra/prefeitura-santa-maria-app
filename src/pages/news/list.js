@@ -29,7 +29,12 @@ import {
   IconButton,
   Icon,
 } from "@chakra-ui/react";
-import { AiFillSave, AiOutlineTool } from "react-icons/ai";
+import {
+  AiFillSave,
+  AiOutlineArrowLeft,
+  AiOutlineArrowRight,
+  AiOutlineTool,
+} from "react-icons/ai";
 import { File, InputFileFull } from "../../styles/uploader";
 import { IoIosImages } from "react-icons/io";
 import DatePicker, { registerLocale } from "react-datepicker";
@@ -45,7 +50,9 @@ registerLocale("pt_br", pt_br);
 
 export default function ListNews() {
   const toast = useToast();
-  const { data, error } = useFetch("/news");
+  const [page, setPage] = useState(1);
+  const [pages, setPages] = useState(0);
+  const { data, error } = useFetch(`/news/${page}`);
   const [modalGalery, setModalGalery] = useState(false);
   const [modalImage, setModalImage] = useState(false);
   const [modalInfo, setModalInfo] = useState(false);
@@ -68,10 +75,19 @@ export default function ListNews() {
 
   useEffect(() => {
     if (data) {
-      setNews(data);
-      console.log(data);
+      setNews(data.noticias);
+      handlePagination(data.count);
     }
   }, [data]);
+
+  function handlePagination(num) {
+    const divisor = parseFloat(num) / 12;
+    if (divisor > parseInt(divisor) && divisor < parseInt(divisor) + 1) {
+      setPages(parseInt(divisor) + 1);
+    } else {
+      setPages(parseInt(divisor));
+    }
+  }
 
   const CustomInputPicker = ({ value, onClick }) => (
     <InputGroup>
@@ -361,6 +377,52 @@ export default function ListNews() {
           </Box>
         ))}
       </Grid>
+
+      {news.length !== 0 && (
+        <Flex align="center" justify="center" mt={10}>
+          <Button
+            size="sm"
+            colorScheme="blue"
+            leftIcon={<AiOutlineArrowLeft />}
+            _hover={{ transform: "scale(1.05)" }}
+            _active={{ transform: "scale(1)" }}
+            isDisabled={page <= page}
+            onClick={() => setPage(page - 1)}
+          >
+            Anterior
+          </Button>
+          <Input
+            size="sm"
+            value={page}
+            w="50px"
+            rounded="md"
+            isReadOnly
+            mr={2}
+            ml={2}
+          />
+          <Text fontSize="sm">de</Text>
+          <Input
+            size="sm"
+            value={pages}
+            w="50px"
+            rounded="md"
+            isReadOnly
+            ml={2}
+            mr={2}
+          />
+          <Button
+            size="sm"
+            colorScheme="blue"
+            rightIcon={<AiOutlineArrowRight />}
+            _hover={{ transform: "scale(1.05)" }}
+            _active={{ transform: "scale(1)" }}
+            isDisabled={page >= pages}
+            onClick={() => setPage(page + 1)}
+          >
+            Próxima
+          </Button>
+        </Flex>
+      )}
 
       <Modal
         isOpen={modalGalery}
