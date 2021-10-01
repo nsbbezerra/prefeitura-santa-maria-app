@@ -8,14 +8,7 @@ import {
   FormLabel,
   Input,
   Button,
-  Icon,
   Flex,
-  Table,
-  Th,
-  Thead,
-  Td,
-  Tr,
-  Tbody,
   Divider,
   Popover,
   PopoverTrigger,
@@ -34,11 +27,9 @@ import {
   InputGroup,
   InputRightElement,
   useToast,
-  IconButton,
   HStack,
 } from "@chakra-ui/react";
-import { File, InputFile } from "../../styles/uploader";
-import { FaFilePdf, FaCalendarAlt, FaTrash } from "react-icons/fa";
+import { FaCalendarAlt, FaTrash } from "react-icons/fa";
 import {
   AiFillSave,
   AiOutlineClose,
@@ -62,7 +53,7 @@ export default function Publications() {
   const [date, setDate] = useState(new Date());
   const [loading, setLoading] = useState(false);
   const [loadingDel, setLoadingDel] = useState(false);
-  const [pdf, setPdf] = useState(null);
+  const [pdf, setPdf] = useState("");
   const [title, setTitle] = useState("");
   const [archive, setArchive] = useState("");
 
@@ -76,7 +67,7 @@ export default function Publications() {
   );
 
   function clear() {
-    setPdf(null);
+    setPdf("");
     setInitDate(new Date());
     setTitle("");
   }
@@ -116,19 +107,18 @@ export default function Publications() {
       showToast("Insira um título", "warning", "Atenção");
       return false;
     }
-    if (!pdf) {
-      showToast("Insira um arquivo PDF", "warning", "Atenção");
+    if (pdf === "") {
+      showToast("Insira um link para arquivo PDF", "warning", "Atenção");
       return false;
     }
     setLoading(true);
 
-    let dataPdf = new FormData();
-    dataPdf.append("title", title);
-    dataPdf.append("date", initDate);
-    dataPdf.append("pdf", pdf);
-
     try {
-      const response = await api.post("/publications", dataPdf);
+      const response = await api.post("/publications", {
+        title,
+        date: initDate,
+        file: pdf,
+      });
       showToast(response.data.message, "success", "Sucesso");
       setLoading(false);
       clear();
@@ -196,7 +186,7 @@ export default function Publications() {
     <>
       <Center rounded="md" bg="green.500" p={1}>
         <Text color="white" fontWeight="bold" fontSize="lg">
-          PUBLICAÇÕES
+          PUBLICAÇÕES DIÁRIO OFICIAL
         </Text>
       </Center>
 
@@ -229,42 +219,12 @@ export default function Publications() {
             />
           </FormControl>
           <FormControl isRequired mt={3}>
-            <FormLabel>Arquivo PDF</FormLabel>
-            {pdf ? (
-              <Flex
-                direction="column"
-                justify="center"
-                align="center"
-                h="80px"
-                borderWidth="1px"
-                rounded="md"
-              >
-                <Icon as={FaFilePdf} fontSize="2xl" />
-                <Text fontSize="sm" mt={1}>
-                  {pdf.name}{" "}
-                  <IconButton
-                    icon={<FaTrash />}
-                    colorScheme="red"
-                    size="xs"
-                    rounded="full"
-                    mt={1}
-                    onClick={() => setPdf(null)}
-                    variant="link"
-                  />
-                </Text>
-              </Flex>
-            ) : (
-              <InputFile alt={80} lar={300} border={"#3d5794"}>
-                <File
-                  type="file"
-                  onChange={(event) => setPdf(event.target.files[0])}
-                />
-                <Icon as={FaFilePdf} fontSize="2xl" />
-                <Text fontSize="sm" mt={1}>
-                  Insira o arquivo PDF
-                </Text>
-              </InputFile>
-            )}
+            <FormLabel>Link para o Arquivo PDF</FormLabel>
+            <Input
+              placeholder="Link para o arquivo"
+              value={pdf}
+              onChange={(e) => setPdf(e.target.value)}
+            />
           </FormControl>
           <Button
             colorScheme="blue"
@@ -336,69 +296,51 @@ export default function Publications() {
                   })}
                 </Text>
 
-                <Divider mt={3} />
-                <Table size="sm">
-                  <Thead>
-                    <Tr>
-                      <Th>Arquivo</Th>
-                      <Th w="10%">Opções</Th>
-                    </Tr>
-                  </Thead>
-                  <Tbody>
-                    <Tr>
-                      <Td>
-                        <Text noOfLines={2} w="100%">
-                          {pub.file}
-                        </Text>
-                      </Td>
-                      <Td w="10%">
-                        <Button
-                          size="xs"
-                          leftIcon={<AiOutlineSearch />}
-                          colorScheme="green"
-                          _hover={{ transform: "scale(1.05)" }}
-                          _active={{ transform: "scale(1)" }}
-                          onClick={() => handleArchive(pub._id)}
-                        >
-                          Ver
-                        </Button>
-                      </Td>
-                    </Tr>
-                  </Tbody>
-                </Table>
-
-                <Popover>
-                  <PopoverTrigger>
-                    <Button
-                      colorScheme="red"
-                      mt={3}
-                      leftIcon={<AiOutlineClose />}
-                      isFullWidth
-                      _hover={{ transform: "scale(1.02)" }}
-                      _active={{ transform: "scale(1)" }}
-                      size="sm"
-                    >
-                      Excluir Publicação
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent _focus={{ outline: "none" }} shadow="lg">
-                    <PopoverArrow />
-                    <PopoverCloseButton />
-                    <PopoverHeader>Confirmação!</PopoverHeader>
-                    <PopoverBody>Deseja excluir esta publicação?</PopoverBody>
-                    <PopoverFooter d="flex" justifyContent="flex-end">
+                <Divider mt={3} mb={3} />
+                <HStack>
+                  <Button
+                    isFullWidth
+                    leftIcon={<AiOutlineSearch />}
+                    colorScheme="green"
+                    _hover={{ transform: "scale(1.05)" }}
+                    _active={{ transform: "scale(1)" }}
+                    onClick={() => handleArchive(pub._id)}
+                    size="xs"
+                  >
+                    Visualizar
+                  </Button>
+                  <Popover>
+                    <PopoverTrigger>
                       <Button
-                        colorScheme="green"
-                        leftIcon={<AiOutlineCheck />}
-                        size="sm"
-                        isLoading={loadingDel}
-                        onClick={() => removePublication(pub._id)}
+                        colorScheme="red"
+                        leftIcon={<AiOutlineClose />}
+                        isFullWidth
+                        _hover={{ transform: "scale(1.02)" }}
+                        _active={{ transform: "scale(1)" }}
+                        size="xs"
                       >
-                        Sim
+                        Excluir Publicação
                       </Button>
-                    </PopoverFooter>
-                  </PopoverContent>
-                </Popover>
+                    </PopoverTrigger>
+                    <PopoverContent _focus={{ outline: "none" }} shadow="lg">
+                      <PopoverArrow />
+                      <PopoverCloseButton />
+                      <PopoverHeader>Confirmação!</PopoverHeader>
+                      <PopoverBody>Deseja excluir esta publicação?</PopoverBody>
+                      <PopoverFooter d="flex" justifyContent="flex-end">
+                        <Button
+                          colorScheme="green"
+                          leftIcon={<AiOutlineCheck />}
+                          size="sm"
+                          isLoading={loadingDel}
+                          onClick={() => removePublication(pub._id)}
+                        >
+                          Sim
+                        </Button>
+                      </PopoverFooter>
+                    </PopoverContent>
+                  </Popover>
+                </HStack>
               </Box>
             ))}
           </Grid>
@@ -418,10 +360,7 @@ export default function Publications() {
           <ModalCloseButton />
           <ModalBody p={0} h="100%">
             <Box roundedBottom="md" overflow="hidden" h="100%">
-              <embed
-                src={`${route}/docs/${archive}`}
-                style={{ width: "100%", height: "100%" }}
-              />
+              <embed src={archive} style={{ width: "100%", height: "100%" }} />
             </Box>
           </ModalBody>
         </ModalContent>

@@ -5,10 +5,11 @@ import {
   Button,
   Flex,
   Text,
-  FormControl,
-  FormLabel,
   Input,
-  Grid,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
   useToast,
   Popover,
   PopoverTrigger,
@@ -28,8 +29,8 @@ import {
 } from "react-icons/ai";
 import { GiDesk } from "react-icons/gi";
 import { IoNewspaper, IoCalendarSharp } from "react-icons/io5";
-import { IoIosImages } from "react-icons/io";
-import { RiMailSendFill, RiPagesFill, RiFileList3Fill } from "react-icons/ri";
+import { IoIosImages, IoIosArrowDown } from "react-icons/io";
+import { RiMailSendFill, RiPagesFill } from "react-icons/ri";
 import { ImOffice } from "react-icons/im";
 import { useHistory } from "react-router-dom";
 
@@ -172,22 +173,7 @@ export default function MenuApp() {
               </Text>
             </Flex>
           </Button>
-          <Button
-            h="55px"
-            colorScheme="gray"
-            variant="solid"
-            w="85px"
-            _hover={{ transform: "scale(1.05)" }}
-            _active={{ transform: "scale(1)" }}
-            onClick={() => goTo("/publications")}
-          >
-            <Flex justify="center" align="center" direction="column">
-              <Icon as={RiMailSendFill} fontSize="2xl" />
-              <Text mt={2} fontSize="x-small">
-                PUBLICAÇÕES
-              </Text>
-            </Flex>
-          </Button>
+
           <Button
             h="55px"
             colorScheme="gray"
@@ -228,22 +214,6 @@ export default function MenuApp() {
             w="85px"
             _hover={{ transform: "scale(1.05)" }}
             _active={{ transform: "scale(1)" }}
-            onClick={() => goTo("/ordinances")}
-          >
-            <Flex justify="center" align="center" direction="column">
-              <Icon as={RiFileList3Fill} fontSize="2xl" />
-              <Text mt={2} fontSize="x-small">
-                PORTARIAS
-              </Text>
-            </Flex>
-          </Button>
-          <Button
-            h="55px"
-            colorScheme="gray"
-            variant="solid"
-            w="85px"
-            _hover={{ transform: "scale(1.05)" }}
-            _active={{ transform: "scale(1)" }}
             onClick={() => goTo("/videos")}
           >
             <Flex justify="center" align="center" direction="column">
@@ -253,6 +223,32 @@ export default function MenuApp() {
               </Text>
             </Flex>
           </Button>
+
+          <Menu>
+            <MenuButton
+              as={Button}
+              h="55px"
+              colorScheme="gray"
+              variant="solid"
+              w="85px"
+              _hover={{ transform: "scale(1.05)" }}
+              _active={{ transform: "scale(1)" }}
+            >
+              <Flex justify="center" align="center" direction="column">
+                <Icon as={RiMailSendFill} fontSize="2xl" />
+                <Text mt={2} fontSize="x-small">
+                  PUBLICAÇÕES <Icon as={IoIosArrowDown} fontSize="xx-small" />
+                </Text>
+              </Flex>
+            </MenuButton>
+            <MenuList>
+              <MenuItem onClick={() => goTo("/publications")}>
+                DIÁRIO OFICIAL
+              </MenuItem>
+              <MenuItem onClick={() => goTo("/ordinances")}>PORTARIAS</MenuItem>
+              <MenuItem onClick={() => goTo("/decrees")}>DECRETOS</MenuItem>
+            </MenuList>
+          </Menu>
         </HStack>
 
         <Flex justify="center" direction="column" h="100%" w="18%">
