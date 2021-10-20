@@ -28,6 +28,14 @@ import {
   useToast,
   IconButton,
   Icon,
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogContent,
+  AlertDialogOverlay,
+  Wrap,
+  WrapItem,
 } from "@chakra-ui/react";
 import {
   AiFillSave,
@@ -56,6 +64,7 @@ export default function ListNews() {
   const [modalGalery, setModalGalery] = useState(false);
   const [modalImage, setModalImage] = useState(false);
   const [modalInfo, setModalInfo] = useState(false);
+  const [removeNews, setRemoveNews] = useState(false);
 
   const [initDate, setInitDate] = useState(new Date());
   const [text, setText] = useState(RichTextEditor.createEmptyValue());
@@ -147,7 +156,7 @@ export default function ListNews() {
   }
 
   const handleNews = async (id) => {
-    const result = await data.find((obj) => obj._id === id);
+    const result = await data.noticias.find((obj) => obj._id === id);
     setId(result._id);
     setTitle(result.title);
     setResume(result.resume);
@@ -160,7 +169,7 @@ export default function ListNews() {
   };
 
   const handlePreview = async (id) => {
-    const result = await data.find((obj) => obj._id === id);
+    const result = await data.noticias.find((obj) => obj._id === id);
     setShowNews(result);
     setPreview(true);
   };
@@ -198,7 +207,7 @@ export default function ListNews() {
   };
 
   const handleImage = async (id) => {
-    const result = await data.find((obj) => obj._id === id);
+    const result = await data.noticias.find((obj) => obj._id === id);
     setCopy(result.imageCopy);
     setId(result._id);
     setModalImage(true);
@@ -292,6 +301,36 @@ export default function ListNews() {
     }
   };
 
+  function handleRemoveNews(id) {
+    setId(id);
+    setRemoveNews(true);
+  }
+
+  const RemoveNew = async () => {
+    setLoading(true);
+
+    try {
+      const response = await api.delete(`/news/${id}`);
+      showToast(response.data.message, "success", "Sucesso");
+      const updated = await data.noticias.filter((obj) => obj._id !== id);
+      setNews(updated);
+      setLoading(false);
+      setRemoveNews(false);
+    } catch (error) {
+      setLoading(false);
+      if (error.message === "Network Error") {
+        alert(
+          "Sem conexão com o servidor, verifique sua conexão com a internet."
+        );
+        return false;
+      }
+      const typeError =
+        error.response.data.message || "Ocorreu um erro ao salvar";
+      const message = error.response.data.errorMessage;
+      showToast(message, "error", typeError);
+    }
+  };
+
   return (
     <>
       <Grid
@@ -306,18 +345,28 @@ export default function ListNews() {
               <Image
                 src={`${route}/img/${not.image}`}
                 layout="responsive"
+                w="100%"
                 h="160px"
                 alt="Prefeitura de Santa Maria"
                 objectFit="cover"
               />
-              <Flex
-                h={["200px", "230px", "230px", "230px", "230px"]}
-                align="center"
-              >
+              <Flex align="center">
                 <Box p={3}>
-                  <Tag colorScheme="blue" mb={1} size="sm">
-                    {not.tag}
-                  </Tag>
+                  {!not.tag.includes(",") ? (
+                    <Tag colorScheme="blue" mb={1} size="sm">
+                      {not.tag}
+                    </Tag>
+                  ) : (
+                    <Wrap mb={1}>
+                      {not.tag.split(",").map((tag) => (
+                        <WrapItem key={tag}>
+                          <Tag colorScheme="blue" mb={1} size="sm">
+                            {tag}
+                          </Tag>
+                        </WrapItem>
+                      ))}
+                    </Wrap>
+                  )}
                   <Heading
                     fontSize={["md", "lg", "lg", "lg", "lg"]}
                     noOfLines={4}
@@ -372,6 +421,9 @@ export default function ListNews() {
                 <MenuItem onClick={() => handleNews(not._id)}>
                   Alterar Textos
                 </MenuItem>
+                <MenuItem onClick={() => handleRemoveNews(not._id)}>
+                  Remover Matéria
+                </MenuItem>
               </MenuList>
             </Menu>
           </Box>
@@ -386,7 +438,7 @@ export default function ListNews() {
             leftIcon={<AiOutlineArrowLeft />}
             _hover={{ transform: "scale(1.05)" }}
             _active={{ transform: "scale(1)" }}
-            isDisabled={page <= page}
+            isDisabled={page <= 1}
             onClick={() => setPage(page - 1)}
           >
             Anterior
@@ -709,6 +761,36 @@ export default function ListNews() {
           </ModalBody>
         </ModalContent>
       </Modal>
+
+      <AlertDialog isOpen={removeNews} onClose={() => setRemoveNews(false)}>
+        <AlertDialogOverlay>
+          <AlertDialogContent>
+            <AlertDialogHeader fontSize="lg" fontWeight="bold">
+              Remover Matéria
+            </AlertDialogHeader>
+
+            <AlertDialogBody>Deseja remover esta matéria?</AlertDialogBody>
+
+            <AlertDialogFooter>
+              <Button
+                colorScheme="red"
+                onClick={() => setRemoveNews(false)}
+                variant="outline"
+              >
+                Não
+              </Button>
+              <Button
+                onClick={() => RemoveNew()}
+                ml={3}
+                colorScheme="blue"
+                isLoading={loading}
+              >
+                Sim
+              </Button>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialogOverlay>
+      </AlertDialog>
     </>
   );
 }

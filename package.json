@@ -2,6 +2,10 @@
   "name": "app",
   "version": "0.1.0",
   "productName": "Prefeitura Municipal de Santa Maria do Tocantins",
+  "author": {
+    "name": "Natanael Bezerra",
+    "email": "contato.nk.info@gmail.com"
+  },
   "private": true,
   "homepage": "./",
   "main": "public/electron.js",
